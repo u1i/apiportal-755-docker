@@ -21,11 +21,8 @@ RUN tar -xvzf /tmp/APIPortal_7.5.5_Install_RHEL7_linux-x86-64_BN126.tgz
 RUN wget -O /tmp/phpredis.tgz https://github.com/phpredis/phpredis/archive/4.2.0.tar.gz
 RUN tar -xvzf /tmp/APIPortal_7.5.5_Install_RHEL7_linux-x86-64_BN126.tgz -C /tmp
 
-RUN yum -y install sudo
-RUN adduser portal
-
-#COPY sudo /usr/bin
-#RUN chmod a+x /usr/bin/sudo
+COPY sudo /usr/bin
+RUN chmod a+x /usr/bin/sudo
 
 RUN echo $mysql_table > /tmp/tables.txt
 COPY installer-wrapper.x /tmp
@@ -36,12 +33,5 @@ RUN /tmp/installer-wrapper.sh
 
 COPY portal-wrapper.sh /
 RUN chmod a+x /portal-wrapper.sh
-RUN chown -R portal:portal /run/httpd
-RUN chmod -R a+rwx /var/log
-RUN chown portal:portal /etc/httpd/conf/server.key
-RUN chown portal:portal /etc/httpd/conf/server.crt
-RUN chown portal:portal /etc/pki/tls/private/localhost.key
-RUN chown portal:portal /etc/pki/tls/certs/localhost.crt
 
-USER portal
 CMD ["/portal-wrapper.sh",""]

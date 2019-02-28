@@ -1,0 +1,8 @@
+if [ "$1" = "-u" ]
+then
+        shift
+        shift
+fi
+$@
+
+echo "$(date) $0" >> /tmp/sudo.log
